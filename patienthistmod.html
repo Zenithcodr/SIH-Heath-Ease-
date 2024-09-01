@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Ease</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #2193b0, #6dd5ed);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            height: 100vh;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .sidebar h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 30px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: transparent;
+            color: #fff;
+        }
+
+        .sidebar ul li a.active::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #6dd5ed;
+            border-radius: 3px;
+            z-index: 0;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            z-index: 1;
+        }
+
+        .sidebar ul li a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border: 1px solid #fff;
+            border-radius: 30px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logout:hover {
+            background-color: #6dd5ed;
+            color: #fff;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tabs button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background-color: transparent;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .tabs button.active {
+            border-bottom: 2px solid #6dd5ed;
+            font-weight: 600;
+        }
+
+        .content-container {
+            display: none;
+        }
+
+        .content-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-container h3 {
+            margin-top: 0;
+            color: #2b4c85;
+        }
+
+        .content-container p {
+            margin-bottom: 20px;
+        }
+
+        .add-new-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .add-new-button:hover {
+            background-color: #218838;
+        }
+
+        .form-container {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #6dd5ed;
+            outline: none;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>HEALTH EASE</h1>
+        <ul>
+            <li><a href="fumod.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="personalmod.html"><i class="fas fa-user"></i><span>Personal Details</span></a></li>
+            <li><a href="patienthistmod.html"><i class="fas fa-patient history"></i><span>Patient History</span></a></li>
+            <li><a href="hospital.html"><i class="fas fa-hospital"></i><span>Hospital</span></a></li>
+            <li><a href="ambulancebooking.html"><i class="fas fa-ambulance"></i><span>Ambulance Booking</span></a></li>
+            <li><a href="chatbot.html"><i class="fas fa-comments"></i><span>Chatbot</span></a></li>
+            <li><a href="healthtips.html"><i class="fas fa-heartbeat"></i><span>Health Tips and Queries</span></a></li>
+            <li><a href="#" id="logout" onclick="loadContent('logout')"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+        </ul>
+        <div class="time-box">
+            <div id="datetime"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content" id="main-content">
+            <!-- Tabs and Content Sections -->
+            <div class="tabs">
+                <button id="prescriptionTab" class="active" onclick="switchTab(event, 'prescriptionContent')">Prescription</button>
+                <button id="testResultsTab" onclick="switchTab(event, 'testResultsContent')">Test Results</button>
+                <button id="appointmentHistoryTab" onclick="switchTab(event, 'appointmentHistoryContent')">Previous Appointment History</button>
+                <button id="healthRecordTab" onclick="switchTab(event, 'healthRecordContent')">Health Record</button>
+            </div>
+            
+            <!-- Prescription Section -->
+            <div id="prescriptionContent" class="content-container active">
+                <h3>Prescription</h3>
+                <p>Here you can view and manage your current prescriptions.</p>
+                <button class="add-new-button" onclick="toggleForm('prescriptionForm')">Add New Prescription</button>
+
+                <div id="prescriptionForm" class="form-container">
+                    <div class="form-group">
+                        <label for="prescriptionName">Prescription Name</label>
+                        <input type="text" id="prescriptionName" placeholder="Enter prescription name">
+                    </div>
+                    <div class="form-group">
+                        <label for="prescriptionDetails">Prescription Details</label>
+                        <textarea id="prescriptionDetails" rows="4" placeholder="Enter prescription details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button onclick="submitPrescription()">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Results Section -->
+            <div id="testResultsContent" class="content-container">
+                <h3>Test Results</h3>
+                <p>View the results of your recent medical tests.</p>
+                <button class="add-new-button" onclick="toggleForm('testResultsForm')">Add New Test Result</button>
+
+                <div id="testResultsForm" class="form-container">
+                    <div class="form-group">
+                        <label for="testName">Test Name</label>
+                        <input type="text" id="testName" placeholder="Enter test name">
+                    </div>
+                    <div class="form-group">
+                        <label for="testDate">Test Date</label>
+                        <input type="date" id="testDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="testDetails">Test Details</label>
+                        <textarea id="testDetails" rows="4" placeholder="Enter test details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button onclick="submitTestResult()">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Previous Appointment History Section -->
+            <div id="appointmentHistoryContent" class="content-container">
+                <h3>Previous Appointment History</h3>
+                <p>Check the history of your previous appointments with the healthcare provider.</p>
+                <!-- Add appointment history details here -->
+            </div>
+
+            <!-- Health Record Section -->
+            <div id="healthRecordContent" class="content-container">
+                <h3>Health Record</h3>
+                <p>Your complete health record and history are available here.</p>
+                <!-- Add health record details here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        function updateDateTime() {
+            const now = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+            document.getElementById('datetime').textContent = now;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        function loadContent(page) {
+            const links = document.querySelectorAll('.sidebar ul li a');
+            links.forEach(link => link.classList.remove('active'));
+
+            document.getElementById(page).classList.add('active');
+
+            document.getElementById('main-content').style.display = 'flex';
+
+            switchTab({ target: document.getElementById(page) }, page + 'Content');
+        }
+
+        function switchTab(event, contentId) {
+            const tabs = document.querySelectorAll('.tabs button');
+            const contents = document.querySelectorAll('.content-container');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(contentId).classList.add('active');
+        }
+
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            form.classList.toggle('active');
+        }
+
+        function submitPrescription() {
+            const name = document.getElementById('prescriptionName').value;
+            const details = document.getElementById('prescriptionDetails').value;
+            alert(`New Prescription Submitted:\nName: ${name}\nDetails: ${details}`);
+        }
+
+        function submitTestResult() {
+            const testName = document.getElementById('testName').value;
+            const testDate = document.getElementById('testDate').value;
+            const testDetails = document.getElementById('testDetails').value;
+            alert(`New Test Result Submitted:\nTest Name: ${testName}\nDate: ${testDate}\nDetails: ${testDetails}`);
+        }
+
+        window.onload = function() {
+            loadContent('dashboard');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Ease</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #2193b0, #6dd5ed);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            height: 100vh;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .sidebar h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 30px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: transparent;
+            color: #fff;
+        }
+
+        .sidebar ul li a.active::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #6dd5ed;
+            border-radius: 3px;
+            z-index: 0;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            z-index: 1;
+        }
+
+        .sidebar ul li a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+        }
+
+        .main-content {
+            margin-left: 250px; /* Shift content right by width of sidebar */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: #2b4c85;
+            margin-bottom: 20px; /* Space between the heading and container */
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            margin: auto; /* Center the container */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2b4c85;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border: 1px solid #d3dce6;
+            border-radius: 8px;
+            background: #f0f4f8;
+            color: #333;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2b4c85;
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        .form-group .optional {
+            font-size: 14px;
+            color: #2b4c85;
+        }
+
+        .form-actions {
+            text-align: center;
+        }
+
+        .form-actions button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: #2b4c85;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-actions button:hover {
+            background-color: #1e3c72;
+        }
+
+        .details-output {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .details-output h3 {
+            color: #2b4c85;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .details-output p {
+            font-size: 16px;
+            color: #333;
+            margin: 5px 0;
+        }
+
+        .location-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>HEALTH EASE</h1>
+        <ul>
+            <li><a href="fumod.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="personalmod.html"><i class="fas fa-user"></i><span>Personal Details</span></a></li>
+            <li><a href="patienthistmod.html"><i class="fas fa-patient history"></i><span>Patient History</span></a></li>
+            <li><a href="hospital.html"><i class="fas fa-hospital"></i><span>Hospital</span></a></li>
+            <li><a href="ambulancebooking.html"><i class="fas fa-ambulance"></i><span>Ambulance Booking</span></a></li>
+            <li><a href="chatbot.html"><i class="fas fa-comments"></i><span>Chatbot</span></a></li>
+            <li><a href="healthtips.html"><i class="fas fa-heartbeat"></i><span>Health Tips and Queries</span></a></li>
+            <li><a href="#" id="logout" onclick="loadContent('logout')"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+        </ul>
+        <div class="time-box">
+            <div id="datetime"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Personal Details Form</h2>
+        <form id="detailsForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bloodGroup">Blood Group</label>
+                <input type="text" id="bloodGroup" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="text" id="mobile" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email ID</label>
+                <input type="email" id="email">
+            </div>
+            <div class="form-group">
+                <label for="aadhar">Aadhar Card Number</label>
+                <input type="text" id="aadhar" required>
+            </div>
+            <div class="form-group">
+                <label for="aabha">AABHA Card Number <span class="optional">(Optional)</span></label>
+                <input type="text" id="aabha">
+            </div>
+            <div class="form-group">
+                <h3>Guardian Details</h3>
+                <label for="guardianName">Guardian Name</label>
+                <input type="text" id="guardianName" required>
+            </div>
+            <div class="form-group">
+                <label for="guardianMobile">Guardian Mobile Number</label>
+                <input type="text" id="guardianMobile" required>
+            </div>
+            <div class="form-group">
+                <label for="guardianEmail">Guardian Email ID <span class="optional">(Optional)</span></label>
+                <input type="email" id="guardianEmail">
+            </div>
+            <div class="form-group">
+                <label for="nationality">Nationality</label>
+                <input type="text" id="nationality" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" required>
+            </div>
+            <div class="form-group location-container">
+                <label for="state">State</label>
+                <select id="state" onchange="updateCities()">
+                    <option value="">Select State</option>
+                    <option value="andhra-pradesh">Andhra Pradesh</option>
+                    <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                    <option value="assam">Assam</option>
+                    <option value="bihar">Bihar</option>
+                    <option value="chhattisgarh">Chhattisgarh</option>
+                    <option value="goa">Goa</option>
+                    <option value="gujarat">Gujarat</option>
+                    <option value="haryana">Haryana</option>
+                    <option value="himachal-pradesh">Himachal Pradesh</option>
+                    <option value="jharkhand">Jharkhand</option>
+                    <option value="karnataka">Karnataka</option>
+                    <option value="kerala">Kerala</option>
+                    <option value="madhya-pradesh">Madhya Pradesh</option>
+                    <option value="maharashtra">Maharashtra</option>
+                    <option value="manipur">Manipur</option>
+                    <option value="meghalaya">Meghalaya</option>
+                    <option value="mizoram">Mizoram</option>
+                    <option value="nagaland">Nagaland</option>
+                    <option value="odisha">Odisha</option>
+                    <option value="punjab">Punjab</option>
+                    <option value="rajasthan">Rajasthan</option>
+                    <option value="sikkim">Sikkim</option>
+                    <option value="tamil-nadu">Tamil Nadu</option>
+                    <option value="telangana">Telangana</option>
+                    <option value="tripura">Tripura</option>
+                    <option value="uttar-pradesh">Uttar Pradesh</option>
+                    <option value="uttarakhand">Uttarakhand</option>
+                    <option value="west-bengal">West Bengal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <select id="city" name="city" required>
+                    <option value="">Select City</option>
+                </select><br>
+            </div>
+            <div class="form-actions">
+                <button type="submit">Submit Details</button>
+            </div>
+
+            <div class="details-output" id="detailsOutput" style="display:none;">
+                <h3>Your Details</h3>
+                <p><strong>Name:</strong> <span id="outputName"></span></p>
+                <p><strong>Date of Birth:</strong> <span id="outputDob"></span></p>
+                <p><strong>Gender:</strong> <span id="outputGender"></span></p>
+                <p><strong>Blood Group:</strong> <span id="outputBloodGroup"></span></p>
+                <p><strong>Mobile Number:</strong> <span id="outputMobile"></span></p>
+                <p><strong>Email ID:</strong> <span id="outputEmail"></span></p>
+                <p><strong>Aadhar Card Number:</strong> <span id="outputAadhar"></span></p>
+                <p><strong>AABHA Card Number:</strong> <span id="outputAabha"></span></p>
+                <h3>Guardian Details</h3>
+                <p><strong>Guardian Name:</strong> <span id="outputGuardianName"></span></p>
+                <p><strong>Guardian Mobile Number:</strong> <span id="outputGuardianMobile"></span></p>
+                <p><strong>Guardian Email ID:</strong> <span id="outputGuardianEmail"></span></p>
+                <p><strong>Nationality:</strong> <span id="outputNationality"></span></p>
+                <p><strong>Address:</strong> <span id="outputAddress"></span></p>
+                <p><strong>Pincode:</strong> <span id="outputPincode"></span></p>
+                <p><strong>State:</strong> <span id="outputState"></span></p>
+                <p><strong>District:</strong> <span id="outputDistrict"></span></p>
+            </div>
+
+            <script>
+                const cities = {
+                    "andhra-pradesh": ["Visakhapatnam", "Vijayawada", "Tirupati", "Kakinada", "Rajahmundry"],
+                    "arunachal-pradesh": ["Itanagar", "Tawang", "Bomdila", "Ziro"],
+                    "assam": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Tezpur"],
+                    "bihar": ["Patna", "Gaya", "Bhagalpur", "Munger"],
+                    "chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Korba"],
+                    "goa": ["Panaji", "Margao", "Vasco da Gama"],
+                    "gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
+                    "haryana": ["Chandigarh", "Faridabad", "Gurgaon", "Karnal"],
+                    "himachal-pradesh": ["Shimla", "Dharamshala", "Kullu", "Manali"],
+                    "jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Dumka"],
+                    "karnataka": ["Bengaluru", "Mysuru", "Hubli", "Mangalore"],
+                    "kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kottayam"],
+                    "madhya-pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur"],
+                    "maharashtra": ["Mumbai", "Pune", "Nagpur", "Aurangabad"],
+                    "manipur": ["Imphal", "Thoubal"],
+                    "meghalaya": ["Shillong", "Tura"],
+                    "mizoram": ["Aizawl"],
+                    "nagaland": ["Kohima", "Dimapur"],
+                    "odisha": ["Bhubaneswar", "Cuttack", "Rourkela"],
+                    "punjab": ["Chandigarh", "Amritsar", "Ludhiana", "Jalandhar"],
+                    "rajasthan": ["Jaipur", "Udaipur", "Jodhpur", "Kota"],
+                    "sikkim": ["Gangtok"],
+                    "tamil-nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli"],
+                    "telangana": ["Hyderabad", "Warangal", "Nizamabad"],
+                    "tripura": ["Agartala"],
+                    "uttar-pradesh": ["Lucknow", "Kanpur", "Agra", "Varanasi"],
+                    "uttarakhand": ["Dehradun", "Haridwar", "Rishikesh"],
+                    "west-bengal": ["Kolkata", "Siliguri", "Asansol"],
+                    "andaman-nicobar": ["Port Blair"],
+                    "chandigarh": ["Chandigarh"],
+                    "dadra-nagar-haveli": ["Silvassa"],
+                    "daman-diu": ["Daman"],
+                    "delhi": ["Delhi"],
+                    "lakshadweep": ["Kavaratti"],
+                    "puducherry": ["Puducherry"]
+                };
+
+                function updateCities() {
+                    const stateSelect = document.getElementById('state');
+                    const citySelect = document.getElementById('city');
+                    citySelect.innerHTML = '<option value="">Select City</option>';
+
+                    const selectedState = stateSelect.value;
+                    if (selectedState && cities[selectedState]) {
+                        cities[selectedState].forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city.toLowerCase().replace(/\s+/g, '-');
+                            option.textContent = city;
+                            citySelect.appendChild(option);
+                        });
+                    }
+                }
+
+                document.getElementById('state').addEventListener('change', updateCities);
+            </script>
+        </form>
+    </div>
+
+    <script>
+
+        function updateCities() {
+            const stateSelect = document.getElementById('state');
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">Select City</option>';
+
+            const selectedState = stateSelect.value;
+            if (selectedState && cities[selectedState]) {
+                cities[selectedState].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city.toLowerCase().replace(/\s+/g, '-');
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }); // Automatically gets the Mumbai time
+            document.getElementById('datetime').textContent = now;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        document.getElementById('state').addEventListener('change', updateCities);
+    </script>
+</body>
+</html>

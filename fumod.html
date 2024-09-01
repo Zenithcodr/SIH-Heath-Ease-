@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Ease</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #2193b0, #6dd5ed);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            height: 100vh;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sidebar {
+            width: 250px; /* Fixed width */
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed; /* Fixed position to keep the sidebar always visible */
+            top: 0; /* Align sidebar to the top */
+            bottom: 0; /* Stretch sidebar to bottom */
+            left: 0; /* Align sidebar to the left */
+            z-index: 1;
+        }
+
+        .sidebar h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            position: relative; /* Needed for the blue box positioning */
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 30px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: transparent; /* No background color change on hover */
+            color: #fff;
+        }
+
+        .sidebar ul li a.active::before {
+            content: '';
+            position: absolute;
+            top: -10px; /* Position above the text */
+            left: 0;
+            width: 100%;
+            height: 5px; /* Height of the blue box */
+            background-color: #6dd5ed; /* Blue box color */
+            border-radius: 3px;
+            z-index: 0; /* Behind the text */
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            z-index: 1;
+        }
+
+        .sidebar ul li a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: auto; /* Pushes the time box to the bottom */
+            width: 100%;
+            text-align: center;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            margin-left: 250px; /* Ensure main content starts after the sidebar */
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border: 1px solid #fff;
+            border-radius: 30px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .logout:hover {
+            background-color: #6dd5ed;
+            color: #fff;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 60px;
+        }
+
+        .details-section {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            flex-grow: 1;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .details-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #2b4c85;
+            position: relative;
+        }
+
+        .details-section h3::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 5px;
+            background-color: #3498db;
+            margin-top: 10px;
+        }
+
+        .details-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details-section table th,
+        .details-section table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .details-section table th {
+            background-color: #e9ecef;
+            color: #2b4c85;
+            font-weight: normal;
+        }
+
+        .photo-section {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .photo-section img {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .photo-section .edit-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .photo-section .edit-btn:hover {
+            background-color: #6dd5ed;
+        }
+
+        .photo-section .active-status {
+            font-weight: bold;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>HEALTH EASE</h1>
+        <ul>
+            <li><a href="fumod.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="personalmod.html"><i class="fas fa-user"></i><span>Personal Details</span></a></li>
+            <li><a href="patienthistmod.html"><i class="fas fa-patient history"></i><span>Patient History</span></a></li>
+            <li><a href="hospital.html"><i class="fas fa-hospital"></i><span>Hospital</span></a></li>
+            <li><a href="ambulancebooking.html"><i class="fas fa-ambulance"></i><span>Ambulance Booking</span></a></li>
+            <li><a href="chatbot.html"><i class="fas fa-comments"></i><span>Chatbot</span></a></li>
+            <li><a href="healthtips.html"><i class="fas fa-heartbeat"></i><span>Health Tips and Queries</span></a></li>
+            <li><a href="#" id="logout" onclick="loadContent('logout')"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+        </ul>
+        <div class="time-box">
+            <div id="datetime"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content" id="main-content">
+            <!-- Dashboard Content by default -->
+            <div class="content-wrapper" id="dashboard-content">
+                <div class="details-section">
+                    <h3>Patient Profile</h3>
+                    <table>
+                        <tr>
+                            <th>Patient Name</th>
+                            <td id="patient-name"></td>
+                        </tr>
+                        <tr>
+                            <th>D.O.B</th>
+                            <td id="dob"></td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td id="gender"></td>
+                        </tr>
+                        <tr>
+                            <th>Blood Group</th>
+                            <td id="blood-group"></td>
+                        </tr>
+                        <tr>
+                            <th>Mobile No.</th>
+                            <td id="mobile-no"></td>
+                        </tr>
+                        <tr>
+                            <th>Email ID</th>
+                            <td id="email-id"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="photo-section">
+                    <img src="https://via.placeholder.com/150" alt="No Photo">
+                    <button class="edit-btn">Edit Photo</button>
+                    <span class="active-status">Current Status: Active</span>
+                </div>
+            </div>
+
+            <div id="additional-content">
+                <!-- Additional content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        // Function to update Date and Time according to Indian Standard Time (IST)
+        function updateDateTime() {
+            const now = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }); // Automatically gets the Mumbai time
+            document.getElementById('datetime').textContent = now;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Function to dynamically load content
+        function loadContent(page) {
+            const links = document.querySelectorAll('.sidebar ul li a');
+            links.forEach(link => {
+                link.classList.remove('active'); // Remove active class from all links
+            });
+
+            // Set the clicked link as active
+            document.getElementById(page).classList.add('active');
+
+            // Hide all content sections
+            document.getElementById('dashboard-content').style.display = 'none';
+            document.getElementById('additional-content').style.display = 'none';
+
+            // Show the selected content
+            if (page === 'dashboard') {
+                document.getElementById('dashboard-content').style.display = 'flex';
+                loadPatientDetails(); // Load patient details when dashboard is selected
+            } else {
+                document.getElementById('additional-content').style.display = 'block';
+                // You can dynamically insert content for other pages here
+            }
+        }
+
+        // Hypothetical function to load patient details
+        function loadPatientDetails() {
+            // Example data; in a real scenario, replace this with data fetched from a server or login session
+            const patientData = {
+                name: "John Doe",
+                dob: "1990-01-01",
+                gender: "Male",
+                bloodGroup: "O+",
+                mobileNo: "1234567890",
+                emailId: "john.doe@example.com"
+            };
+
+            // Set the patient data in the respective fields
+            document.getElementById('patient-name').textContent = patientData.name;
+            document.getElementById('dob').textContent = patientData.dob;
+            document.getElementById('gender').textContent = patientData.gender;
+            document.getElementById('blood-group').textContent = patientData.bloodGroup;
+            document.getElementById('mobile-no').textContent = patientData.mobileNo;
+            document.getElementById('email-id').textContent = patientData.emailId;
+        }
+
+        // Load the dashboard content by default when the page loads
+        window.onload = function() {
+            loadContent('dashboard'); // Show dashboard by default
+        };
+    </script>
+</body>
+</html>

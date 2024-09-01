@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Ease</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #2193b0, #6dd5ed);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            height: 100vh;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sidebar {
+            width: 250px; /* Fixed width */
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed; /* Fixed position to keep the sidebar always visible */
+            top: 0; /* Align sidebar to the top */
+            bottom: 0; /* Stretch sidebar to bottom */
+            left: 0; /* Align sidebar to the left */
+            z-index: 1;
+        }
+
+        .sidebar h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            position: relative; /* Needed for the blue box positioning */
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 30px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar ul li a.active,
+        .sidebar ul li a:hover {
+            background-color: transparent; /* No background color change on hover */
+            color: #fff;
+        }
+
+        .sidebar ul li a.active::before {
+            content: '';
+            position: absolute;
+            top: -10px; /* Position above the text */
+            left: 0;
+            width: 100%;
+            height: 5px; /* Height of the blue box */
+            background-color: #6dd5ed; /* Blue box color */
+            border-radius: 3px;
+            z-index: 0; /* Behind the text */
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            z-index: 1;
+        }
+
+        .sidebar ul li a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: auto; /* Pushes the time box to the bottom */
+            width: 100%;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>HEALTH EASE</h1>
+        <ul>
+            <li><a href="fumod.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="personalmod.html"><i class="fas fa-user"></i><span>Personal Details</span></a></li>
+            <li><a href="patienthistmod.html"><i class="fas fa-patient history"></i><span>Patient History</span></a></li>
+            <li><a href="hospital.html"><i class="fas fa-hospital"></i><span>Hospital</span></a></li>
+            <li><a href="ambulancebooking.html"><i class="fas fa-ambulance"></i><span>Ambulance Booking</span></a></li>
+            <li><a href="chatbot.html"><i class="fas fa-comments"></i><span>Chatbot</span></a></li>
+            <li><a href="healthtips.html"><i class="fas fa-heartbeat"></i><span>Health Tips and Queries</span></a></li>
+            <li><a href="#" id="logout" onclick="loadContent('logout')"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+        </ul>
+        <div class="time-box">
+            <div id="datetime"></div>
+        </div>
+    </div>
+
+    <!-- The rest of your content would go here -->
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        // Function to update Date and Time according to Indian Standard Time (IST)
+        function updateDateTime() {
+            const now = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }); // Automatically gets the Mumbai time
+            document.getElementById('datetime').textContent = now;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Function to dynamically load content
+        function loadContent(page) {
+            const links = document.querySelectorAll('.sidebar ul li a');
+            links.forEach(link => {
+                link.classList.remove('active'); // Remove active class from all links
+            });
+
+            // Set the clicked link as active
+            document.getElementById(page).classList.add('active');
+        }
+    </script>
+</body>
+</html>
