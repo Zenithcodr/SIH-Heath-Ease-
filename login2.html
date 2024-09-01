@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Website Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #2193b0, #6dd5ed);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .option-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .option-buttons button {
+            width: 45%;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-buttons button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.75s ease;
+            border-radius: 50%;
+            z-index: 0;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        .option-buttons button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .option-buttons button:hover {
+            color: #333;
+        }
+
+        .option-buttons button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-container input[type="text"]:focus,
+        .form-container input[type="password"]:focus {
+            border-color: #6dd5ed;
+            outline: none;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background-color: #28a745;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container button:hover {
+            background-color: #218838;
+        }
+
+        .form-container .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .form-container .checkbox-container input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .form-container a {
+            color: #6dd5ed;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 10px 0;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .form-container a:hover {
+            color: #fff;
+        }
+
+        .patient-login {
+            background: rgba(70, 130, 180, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+        }
+
+        .hospital-login {
+            background: rgba(34, 139, 34, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Health Ease</h2>
+    <div class="option-buttons">
+        <button id="customerBtn"><span>Customer</span></button>
+        <button id="hospitalBtn"><span>Hospital</span></button>
+    </div>
+    
+    <div id="customerForm" class="form-container">
+        <div class="patient-login">
+            <h3>Customer Login</h3>
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="customerRememberMe">
+                <label for="customerRememberMe">Remember Me</label>
+            </div>
+            <button>Login</button>
+            <a href="#">Forgot Password?</a>
+            <br>
+            <a href="signup.html">Sign Up</a>
+        </div>
+    </div>
+
+    <div id="hospitalForm" class="form-container">
+        <div class="hospital-login">
+            <h3>Hospital Login</h3>
+            <input type="text" placeholder="Hospital ID" required>
+            <input type="password" placeholder="Password" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="hospitalRememberMe">
+                <label for="hospitalRememberMe">Remember Me</label>
+            </div>
+            <button>Login</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const customerBtn = document.getElementById('customerBtn');
+    const hospitalBtn = document.getElementById('hospitalBtn');
+    const customerForm = document.getElementById('customerForm');
+    const hospitalForm = document.getElementById('hospitalForm');
+
+    customerBtn.addEventListener('click', () => {
+        customerForm.classList.add('active');
+        hospitalForm.classList.remove('active');
+    });
+
+    hospitalBtn.addEventListener('click', () => {
+        hospitalForm.classList.add('active');
+        customerForm.classList.remove('active');
+    });
+</script>
+
+</body>
+</html>

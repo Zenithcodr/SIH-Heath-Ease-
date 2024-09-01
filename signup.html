@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Medical Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #2193b0, #6dd5ed);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px; /* Adjusted width */
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-top: 400px; /* Significantly increased gap from the top */
+        }
+
+        h1 {
+            margin-bottom: 40px; /* Gap below the heading */
+            color: #fff;
+            font-size: 36px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin: 10px 0;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="date"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group input[type="date"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus {
+            border-color: #6dd5ed;
+            outline: none;
+        }
+
+        .form-group input[type="tel"] {
+            padding-right: 120px; /* Space for OTP button */
+        }
+
+        .otp-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px; /* Space between mobile number and OTP button */
+        }
+
+        .otp-button:hover {
+            background-color: #218838;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 45px; /* Space for the eye icon */
+            box-sizing: border-box;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 75%; /* Adjusted to create space below the icon */
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px; /* Adjust as needed */
+            color: #666;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group button:hover {
+            background-color: #218838;
+        }
+
+        .form-group a {
+            color: #6dd5ed;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: color 0.3s;
+        }
+
+        .form-group a:hover {
+            color: #fff;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .location-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .location-container select {
+            width: calc(100% - 24px);
+            padding: 10px;
+            background-color: #fff;
+            color: #000;
+        }
+
+        .location-access {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .location-access input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        /* Dark mode for dropdown options */
+        select {
+            background-color: #333;
+            color: #fff;
+        }
+
+        select option {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sign Up Page</h1>
+    <form>
+        <div class="form-group">
+            <label for="userName">User Name</label>
+            <input type="text" id="userName" placeholder="Enter user name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="patientName">Patient Name</label>
+            <input type="text" id="patientName" placeholder="Enter patient name" required>
+        </div>
+
+        <!-- Gender column added here -->
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" required>
+        </div>
+
+        <!-- Blood Group column added here -->
+        <div class="form-group">
+            <label for="bloodGroup">Blood Group</label>
+            <select id="bloodGroup" required>
+                <option value="">Select Blood Group</option>
+                <option value="a+">A+</option>
+                <option value="a-">A-</option>
+                <option value="b+">B+</option>
+                <option value="b-">B-</option>
+                <option value="ab+">AB+</option>
+                <option value="ab-">AB-</option>
+                <option value="o+">O+</option>
+                <option value="o-">O-</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="mobileNo">Mobile No.</label>
+            <input type="tel" id="mobileNo" placeholder="+91" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email address" required>
+        </div>
+
+        <div class="form-group location-container">
+            <label for="state">State</label>
+            <select id="state" onchange="updateCities()">
+                <option value="">Select State</option>
+                <!-- List of all Indian states -->
+                <option value="andhra-pradesh">Andhra Pradesh</option>
+                <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                <option value="assam">Assam</option>
+                <option value="bihar">Bihar</option>
+                <option value="chhattisgarh">Chhattisgarh</option>
+                <option value="goa">Goa</option>
+                <option value="gujarat">Gujarat</option>
+                <option value="haryana">Haryana</option>
+                <option value="himachal-pradesh">Himachal Pradesh</option>
+                <option value="jharkhand">Jharkhand</option>
+                <option value="karnataka">Karnataka</option>
+                <option value="kerala">Kerala</option>
+                <option value="madhya-pradesh">Madhya Pradesh</option>
+                <option value="maharashtra">Maharashtra</option>
+                <option value="manipur">Manipur</option>
+                <option value="meghalaya">Meghalaya</option>
+                <option value="mizoram">Mizoram</option>
+                <option value="nagaland">Nagaland</option>
+                <option value="odisha">Odisha</option>
+                <option value="punjab">Punjab</option>
+                <option value="rajasthan">Rajasthan</option>
+                <option value="sikkim">Sikkim</option>
+                <option value="tamil-nadu">Tamil Nadu</option>
+                <option value="telangana">Telangana</option>
+                <option value="tripura">Tripura</option>
+                <option value="uttar-pradesh">Uttar Pradesh</option>
+                <option value="uttarakhand">Uttarakhand</option>
+                <option value="west-bengal">West Bengal</option>
+                <option value="andaman-nicobar">Andaman and Nicobar Islands</option>
+                <option value="chandigarh">Chandigarh</option>
+                <option value="dadra-nagar-haveli">Dadra and Nagar Haveli</option>
+                <option value="daman-diu">Daman and Diu</option>
+                <option value="delhi">Delhi</option>
+                <option value="lakshadweep">Lakshadweep</option>
+                <option value="puducherry">Puducherry</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <select id="city">
+                <option value="">Select City</option>
+                <!-- Cities will be populated based on selected state -->
+            </select>
+        </div>
+
+        <div class="form-group location-access">
+            <input type="checkbox" id="locationAccess">
+            <label for="locationAccess">Access Location</label>
+        </div>
+
+        <div class="form-group password-container">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <span id="password-toggle" class="password-toggle" onclick="togglePassword('password', 'password-toggle')">👁</span>
+        </div>
+
+        <div class="form-group password-container">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            <span id="confirm-password-toggle" class="password-toggle" onclick="togglePassword('confirmPassword', 'confirm-password-toggle')">👁</span>
+        </div>
+
+        <div class="form-group checkbox-container">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Remember Me</label>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Sign Up</button>
+        </div>
+
+        <div class="form-group">
+            <a href="login2.html">Already have an account? Log In</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const cities = {
+        "andhra-pradesh": ["Visakhapatnam", "Vijayawada", "Tirupati", "Kakinada", "Rajahmundry"],
+        "arunachal-pradesh": ["Itanagar", "Tawang", "Bomdila", "Ziro"],
+        "assam": ["Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Tezpur"],
+        "bihar": ["Patna", "Gaya", "Bhagalpur", "Munger"],
+        "chhattisgarh": ["Raipur", "Bhilai", "Bilaspur", "Korba"],
+        "goa": ["Panaji", "Margao", "Vasco da Gama"],
+        "gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
+        "haryana": ["Chandigarh", "Faridabad", "Gurgaon", "Karnal"],
+        "himachal-pradesh": ["Shimla", "Dharamshala", "Kullu", "Manali"],
+        "jharkhand": ["Ranchi", "Jamshedpur", "Dhanbad", "Dumka"],
+        "karnataka": ["Bengaluru", "Mysuru", "Hubli", "Mangalore"],
+        "kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Kottayam"],
+        "madhya-pradesh": ["Bhopal", "Indore", "Gwalior", "Jabalpur"],
+        "maharashtra": ["Mumbai", "Pune", "Nagpur", "Aurangabad"],
+        "manipur": ["Imphal", "Thoubal"],
+        "meghalaya": ["Shillong", "Tura"],
+        "mizoram": ["Aizawl"],
+        "nagaland": ["Kohima", "Dimapur"],
+        "odisha": ["Bhubaneswar", "Cuttack", "Rourkela"],
+        "punjab": ["Chandigarh", "Amritsar", "Ludhiana", "Jalandhar"],
+        "rajasthan": ["Jaipur", "Udaipur", "Jodhpur", "Kota"],
+        "sikkim": ["Gangtok"],
+        "tamil-nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli"],
+        "telangana": ["Hyderabad", "Warangal", "Nizamabad"],
+        "tripura": ["Agartala"],
+        "uttar-pradesh": ["Lucknow", "Kanpur", "Agra", "Varanasi"],
+        "uttarakhand": ["Dehradun", "Haridwar", "Rishikesh"],
+        "west-bengal": ["Kolkata", "Siliguri", "Asansol"],
+        "andaman-nicobar": ["Port Blair"],
+        "chandigarh": ["Chandigarh"],
+        "dadra-nagar-haveli": ["Silvassa"],
+        "daman-diu": ["Daman"],
+        "delhi": ["Delhi"],
+        "lakshadweep": ["Kavaratti"],
+        "puducherry": ["Puducherry"]
+    };
+
+    function sendOTP() {
+        alert('OTP sent to your mobile number!');
+    }
+
+    function updateCities() {
+        const state = document.getElementById('state').value;
+        const citySelect = document.getElementById('city');
+        citySelect.innerHTML = '<option value="">Select City</option>';
+
+        if (state && cities[state]) {
+            cities[state].forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.toLowerCase().replace(/ /g, '-');
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    }
+
+    function togglePassword(id, toggleId) {
+        const passwordInput = document.getElementById(id);
+        const passwordToggle = document.getElementById(toggleId);
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordToggle.textContent = '🙈'; // Eye closed
+        } else {
+            passwordInput.type = 'password';
+            passwordToggle.textContent = '👁'; // Eye open
+        }
+    }
+</script>
+
+</body>
+</html>
